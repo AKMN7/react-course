@@ -70,30 +70,62 @@ function Menu() {
     return (
         <main className="menu">
             <h2>Our Menu</h2>
-            <Pizza name="Test Name 1" ingredients="Test Ingredients 1" photoName="pizzas/spinaci.jpg" price={10} />
-            <Pizza name="Test Name 2" ingredients="Test Ingredients 2" photoName="pizzas/funghi.jpg" price={10} />
+
+            {pizzaData.length > 0 ? (
+                <React.Fragment>
+                    <p>Authentic Itailian cuisine. 6 Creative dishes to choose from. All from our stone oven, organic and delicious.</p>
+                    <ul className="pizzas">
+                        {pizzaData.map((pizza) => (
+                            <Pizza info={pizza} key={pizza.name} />
+                        ))}
+                    </ul>
+                </React.Fragment>
+            ) : (
+                <p>We are still working on our menu. Please come back later!</p>
+            )}
         </main>
+    );
+}
+
+function Pizza({ info }) {
+    return (
+        <li className={`pizza ${info.soldOut ? "sold-out" : ""}`}>
+            <img src={info.photoName} alt={info.name} />
+            <div>
+                <h3>{info.name}</h3>
+                <p>{info.ingredients}</p>
+                <span>{info.soldOut ? "SOLD OUT" : info.price}</span>
+            </div>
+        </li>
     );
 }
 
 function Footer() {
     const hour = new Date().getHours();
-    const openHour = 16;
+    const openHour = 12;
     const closeHour = 22;
     const isOpen = hour >= openHour && hour <= closeHour;
 
-    return <footer className="footer">{new Date().toLocaleDateString()}. We're currently Open!</footer>;
+    return (
+        <footer className="footer">
+            {isOpen ? (
+                <Order closeHour={closeHour} />
+            ) : (
+                <p>
+                    We're happy to welcome you between {openHour}:00 and {closeHour}:00.
+                </p>
+            )}
+        </footer>
+    );
 }
 
-function Pizza(props) {
+function Order({ closeHour }) {
     return (
-        <div className="pizza">
-            <img src={props.photoName} alt={props.name} />
-            <div>
-                <h3>{props.name}</h3>
-                <p>{props.ingredients}</p>
-                <span>{props.price}</span>
-            </div>
+        <div className="order">
+            <p>
+                {new Date().toLocaleDateString()}. We're open until {closeHour}:00. Come visit us or order online.
+            </p>
+            <button className="btn">Order</button>
         </div>
     );
 }
