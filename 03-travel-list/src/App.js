@@ -1,80 +1,36 @@
 import { useState } from "react";
 
-const initialItems = [
-    { id: 1, description: "Passports", quantity: 2, packed: false },
-    { id: 2, description: "Socks", quantity: 12, packed: true }
-];
+import Form from "./components/Form";
+import Header from "./components/Header";
+import List from "./components/List";
+import Footer from "./components/Footer";
 
 export default function App() {
-    return (
-        <div className="app">
-            <Header />
-            <Form />
-            <List />
-            <Stats />
-        </div>
-    );
-}
+    const [items, setItems] = useState([]);
 
-function Header() {
-    return <h1>🌴 Far Away 👜</h1>;
-}
+    function addItem(item) {
+        setItems((curr) => [...curr, item]);
+    }
 
-function Form() {
-    const [desc, setDesc] = useState("");
-    const [quantity, setQuantity] = useState(1);
+    function deleteItem(itemID) {
+        setItems((curr) => curr.filter((item) => item.id !== itemID));
+    }
 
-    function handleSubmit(e) {
-        e.preventDefault();
+    function updateItem(itemID) {
+        setItems((curr) => curr.map((item) => (item.id === itemID ? { ...item, packed: !item.packed } : item)));
+    }
 
-        if (!desc) return;
-
-        const newItem = { description: desc, quantity: quantity, packed: false, id: Date.now() };
-        console.log("🚀 ~ newItem:", newItem);
-
-        setDesc("");
-        setQuantity(1);
+    function resetItems() {
+        const confirmDeletion = window.confirm("Are you sure you want to reset your packing list?");
+        if (confirmDeletion) setItems([]);
     }
 
     return (
-        <form className="add-form" onSubmit={handleSubmit}>
-            <h3>What do you need for your trip?</h3>
-            <select value={quantity} onChange={(e) => setQuantity(Number(e.target.value))}>
-                {Array.from({ length: 20 }, (_, i) => i + 1).map((el) => (
-                    <option value={el} key={el}>
-                        {el}
-                    </option>
-                ))}
-            </select>
-            <input type="text" placeholder="Item..." value={desc} onChange={(e) => setDesc(e.target.value)} />
-            <button>Add</button>
-        </form>
-    );
-}
-
-function List() {
-    return (
-        <div className="list">
-            <ul>
-                {initialItems.map((item) => (
-                    <Item item={item} key={item.id} />
-                ))}
-            </ul>
+        <div className="app">
+            <Header />
+            <Form onNewItem={addItem} />
+            <List items={items} onDeleteItem={deleteItem} onUpdateItem={updateItem} onResetList={resetItems} />
+            <Footer items={items} />
         </div>
     );
-}
-
-function Item({ item }) {
-    return (
-        <li>
-            <span className={item.packed ? "packed" : undefined}>
-                {item.quantity} {item.description}
-            </span>
-            <button>❌</button>
-        </li>
-    );
-}
-
-function Stats() {
-    return <footer className="stats">You have X items on your list, you already packed X (X%).</footer>;
 }
