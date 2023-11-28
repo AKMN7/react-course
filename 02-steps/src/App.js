@@ -6,7 +6,6 @@ export default function App() {
     return (
         <div>
             <Steps />
-            <Steps />
         </div>
     );
 }
@@ -37,20 +36,35 @@ function Steps() {
                         <div className={step === 3 ? "active" : ""}>3</div>
                     </div>
 
-                    <p className="message">
-                        Step {step}: {messages[step - 1]}
-                    </p>
+                    <Message step={step}>{messages[step - 1]}</Message>
 
                     <div className="buttons">
-                        <button style={{ backgroundColor: "#7950f2", color: "#fff" }} onClick={decrement}>
-                            Previous
-                        </button>
-                        <button style={{ backgroundColor: "#7950f2", color: "#fff" }} onClick={increment}>
-                            Next
-                        </button>
+                        <Button bgColor="#7950f2" textColor="#fff" action={decrement}>
+                            <span>👈</span> Previous
+                        </Button>
+                        <Button bgColor="#7950f2" textColor="#fff" action={increment}>
+                            Next <span>👉</span>
+                        </Button>
                     </div>
                 </div>
             )}
         </div>
+    );
+}
+
+function Message({ step, children }) {
+    console.log("Rendering MESSAGE COMPONENT");
+    return (
+        <div className="message">
+            <h3>Step {step}</h3> {children}
+        </div>
+    );
+}
+
+function Button({ bgColor, textColor, action, children }) {
+    return (
+        <button style={{ backgroundColor: bgColor, color: textColor }} onClick={action}>
+            {children}
+        </button>
     );
 }
