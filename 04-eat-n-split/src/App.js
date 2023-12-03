@@ -43,7 +43,7 @@ export default function App() {
                 <List friends={friends} onSelect={updateSelected} />
                 <FriendForm onNewFriend={addNewFriend} />
             </div>
-            <BillForm selected={selected} onBillSplit={updateFriend} />
+            <BillForm selected={selected} onBillSplit={updateFriend} key={selected?.id} />
         </div>
     );
 }
