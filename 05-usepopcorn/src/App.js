@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useMovies } from "./useMovies";
 import StarRating from "./StarRating";
 import { useLocalStorae } from "./useLocalStorage";
+import { useKey } from "./useKey";
 
 const API_KEY = "c2a2f3ff";
 
@@ -66,23 +67,14 @@ function NavBar({ children }) {
 function Search({ query, setQuery }) {
     const inputEl = useRef(null);
 
-    useEffect(
-        function () {
-            function callback(e) {
-                if (document.activeElement === inputEl.current) return;
+    useKey(function callback(e) {
+        if (document.activeElement === inputEl.current) return;
 
-                if (e.code === "Enter") {
-                    inputEl.current.focus();
-                    setQuery("");
-                }
-            }
-
-            document.addEventListener("keydown", callback);
-
-            return () => document.removeEventListener("keydown", callback);
-        },
-        [setQuery]
-    );
+        if (e.code === "Enter") {
+            inputEl.current.focus();
+            setQuery("");
+        }
+    });
 
     return <input className="search" type="text" placeholder="Search movies..." value={query} onChange={(e) => setQuery(e.target.value)} ref={inputEl} />;
 }
@@ -151,6 +143,18 @@ function MovieDetails({ selectedID, onClose, onUserRating, watched }) {
     const [isLoading, setIsLoading] = useState(false);
     const isWatched = watched.find((el) => el.imdbID === selectedID);
 
+    function handleUserRating(rating) {
+        const watchedMove = { ...movie, userRating: rating };
+        onUserRating(watchedMove);
+        onClose();
+    }
+
+    useKey(function callback(e) {
+        if (e.code === "Escape") {
+            onClose();
+        }
+    });
+
     useEffect(
         function () {
             async function fetchMovieDetails() {
@@ -173,29 +177,6 @@ function MovieDetails({ selectedID, onClose, onUserRating, watched }) {
             return () => (document.title = "usepopcorn");
         },
         [movie]
-    );
-
-    function handleUserRating(rating) {
-        const watchedMove = { ...movie, userRating: rating };
-        onUserRating(watchedMove);
-        onClose();
-    }
-
-    useEffect(
-        function () {
-            function callback(e) {
-                if (e.code === "Escape") {
-                    onClose();
-                }
-            }
-
-            document.addEventListener("keydown", callback);
-
-            return function () {
-                document.removeEventListener("keydown", callback);
-            };
-        },
-        [onClose]
     );
 
     return isLoading ? (
