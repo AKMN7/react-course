@@ -4,25 +4,30 @@ import Main from "./Main";
 import Loader from "./Loader";
 import Error from "./Error";
 import Start from "./Start";
+import Question from "./Question";
 
 const initialState = {
     questions: [],
-    status: "loading" // "loading" | "error" | "ready" | "active" | "finished"
+    status: "loading", // "loading" | "error" | "ready" | "active" | "finished"
+    index: 0
 };
 
 function reducer(state, action) {
     switch (action.type) {
         case "received":
-            return { questions: action.payload, status: "ready" };
+            return { ...state, questions: action.payload, status: "ready" };
         case "failed":
-            return { questions: [], status: "error" };
+            return { ...state, questions: [], status: "error" };
+        case "start":
+            return { ...state, status: "active" };
         default:
             throw new Error("Action Type Unkown: " + action.type);
     }
 }
 
 export default function App() {
-    const [{ questions, status }, dispatch] = useReducer(reducer, initialState);
+    const [{ questions, status, index }, dispatch] = useReducer(reducer, initialState);
+    console.log("🚀 ~ initialState:", initialState);
 
     useEffect(function () {
         fetch("http://localhost:8000/questions")
@@ -36,8 +41,9 @@ export default function App() {
             <Header />
             <Main>
                 {status === "loading" && <Loader />}
-                {status === "error" && <Loader />}
-                {status === "ready" && <Start numOfQuestions={questions.length} />}
+                {status === "error" && <Error />}
+                {status === "ready" && <Start numOfQuestions={questions.length} dispatch={dispatch} />}
+                {status === "active" && <Question question={questions[index]} />}
             </Main>
         </div>
     );
