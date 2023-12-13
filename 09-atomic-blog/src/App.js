@@ -1,5 +1,5 @@
-import { useContext, useState } from "react";
-import { PostProvider, PostContext } from "./PostContext";
+import { useState } from "react";
+import { PostProvider, usePosts } from "./PostContext";
 import RandomPost from "./RandomPost";
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
 }
 
 function Header() {
-    const { onClearPosts } = useContext(PostContext);
+    const { onClearPosts } = usePosts();
 
     return (
         <header>
@@ -33,12 +33,12 @@ function Header() {
 }
 
 function SearchPosts() {
-    const { searchQuery, setSearchQuery } = useContext(PostContext);
+    const { searchQuery, setSearchQuery } = usePosts();
     return <input value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search posts..." />;
 }
 
 function Results() {
-    const { posts } = useContext(PostContext);
+    const { posts } = usePosts();
     return <p>🚀 {posts.length} atomic posts found</p>;
 }
 
@@ -60,7 +60,7 @@ function Posts() {
 }
 
 function FormAddPost() {
-    const { onAddPost } = useContext(PostContext);
+    const { onAddPost } = usePosts();
 
     const [title, setTitle] = useState("");
     const [body, setBody] = useState("");
@@ -83,7 +83,7 @@ function FormAddPost() {
 }
 
 function List() {
-    const { posts } = useContext(PostContext);
+    const { posts } = usePosts();
 
     return (
         <ul>
@@ -98,7 +98,7 @@ function List() {
 }
 
 function Archive() {
-    const { onAddPost } = useContext(PostContext);
+    const { onAddPost } = usePosts();
 
     const [posts] = useState(() => Array.from({ length: 10000 }, () => RandomPost()));
     const [showArchive, setShowArchive] = useState(false);
