@@ -9,20 +9,21 @@ import Message from "./Message";
 import Button from "./Button";
 import BackButton from "./BackButton";
 import { useUrlPoistion } from "../hooks/useUrlPosition";
+import { useCities } from "../context/CitiesContext";
+import { useNavigate } from "react-router-dom";
 
 export function convertToEmoji(countryCode) {
     const codePoints = countryCode
         .toUpperCase()
         .split("")
         .map((char) => 127397 + char.charCodeAt());
-    const result = String.fromCodePoint(...codePoints);
-    console.log("🚀 ~ result:", result);
-    return result;
+    return String.fromCodePoint(...codePoints);
 }
 
 function Form() {
+    const navigate = useNavigate();
     const { lat, lng } = useUrlPoistion();
-
+    const { createCity, isLoading: creationLoading } = useCities();
     const [isLoading, setIsLoading] = useState(false);
     const [cityName, setCityName] = useState("");
     const [country, setCountry] = useState("");
@@ -30,9 +31,10 @@ function Form() {
     const [date, setDate] = useState(new Date());
     const [notes, setNotes] = useState("");
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault();
         if (!cityName || !date) return;
+
         const newCity = {
             cityName,
             country,
@@ -44,7 +46,9 @@ function Form() {
                 lng
             }
         };
-        console.log("🚀 ~ newCity:", newCity);
+
+        await createCity(newCity);
+        navigate("/app/cities");
     }
 
     useEffect(() => {
@@ -71,7 +75,7 @@ function Form() {
     if (isLoading) return <Spinner />;
 
     return (
-        <form className={styles.form} onSubmit={handleSubmit}>
+        <form className={`${styles.form} ${creationLoading ? styles.loading : ""}`} onSubmit={handleSubmit}>
             <div className={styles.row}>
                 <label htmlFor="cityName">City name</label>
                 <input id="cityName" onChange={(e) => setCityName(e.target.value)} value={cityName} />
