@@ -47,42 +47,6 @@
         "lng": "30.673828125000004"
       },
       "id": 98443198
-    },
-    {
-      "cityName": "Ad Dilam",
-      "country": "Saudi Arabia",
-      "emoji": "🇸🇦",
-      "date": "2023-12-14T17:06:36.820Z",
-      "notes": "Best Counrty In The World",
-      "position": {
-        "lat": "23.966175871265044",
-        "lng": "47.02148437500001"
-      },
-      "id": 98443199
-    },
-    {
-      "cityName": "Kharanaq",
-      "country": "Iran (Islamic Republic of)",
-      "emoji": "🇮🇷",
-      "date": "2023-12-14T17:09:42.660Z",
-      "notes": "Not Good",
-      "position": {
-        "lat": "32.287132632616384",
-        "lng": "54.53613281250001"
-      },
-      "id": 98443200
-    },
-    {
-      "cityName": "Amman",
-      "country": "Jordan",
-      "emoji": "🇯🇴",
-      "date": "2023-12-14T17:12:22.403Z",
-      "notes": "Home Counrty",
-      "position": {
-        "lat": "31.91953017247695",
-        "lng": "35.91979980468751"
-      },
-      "id": 98443201
     }
   ]
 }
