@@ -25,18 +25,6 @@
       "id": 17806751
     },
     {
-      "cityName": "Berlin",
-      "country": "Germany",
-      "emoji": "🇩🇪",
-      "date": "2027-02-12T09:24:11.863Z",
-      "notes": "Amazing 😃",
-      "position": {
-        "lat": 52.53586782505711,
-        "lng": 13.376933665713324
-      },
-      "id": 98443197
-    },
-    {
       "cityName": "Kozyn",
       "country": "Ukraine",
       "emoji": "🇺🇦",
@@ -47,6 +35,42 @@
         "lng": "30.673828125000004"
       },
       "id": 98443198
+    },
+    {
+      "cityName": "Riyadh",
+      "country": "Saudi Arabia",
+      "emoji": "🇸🇦",
+      "date": "2023-12-15T22:19:49.829Z",
+      "notes": "Best City In The World",
+      "position": {
+        "lat": "24.407137917727667",
+        "lng": "46.8017578125"
+      },
+      "id": 98443199
+    },
+    {
+      "cityName": "Amman",
+      "country": "Jordan",
+      "emoji": "🇯🇴",
+      "date": "2023-12-15T22:20:41.334Z",
+      "notes": "My Home Country",
+      "position": {
+        "lat": "31.93817848559113",
+        "lng": "35.93353271484376"
+      },
+      "id": 98443200
+    },
+    {
+      "cityName": "Moscow",
+      "country": "Russian Federation (the)",
+      "emoji": "🇷🇺",
+      "date": "2023-12-15T22:21:03.517Z",
+      "notes": "Vladimir Putin",
+      "position": {
+        "lat": "55.73948169869349",
+        "lng": "37.62268066406251"
+      },
+      "id": 98443201
     }
   ]
 }
