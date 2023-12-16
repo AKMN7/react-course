@@ -1,6 +1,7 @@
 import { useQuiz } from "../context/QuizContext";
 
 function Progress() {
+    console.log("Progress");
     const { numOfQuestions, maxPoints, index, answer, points } = useQuiz();
 
     return (

@@ -13,6 +13,7 @@ import Footer from "./Footer";
 import Timer from "./Timer";
 
 export default function App() {
+    console.log("App");
     const { status } = useQuiz();
 
     return (

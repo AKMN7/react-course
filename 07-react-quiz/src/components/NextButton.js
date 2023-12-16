@@ -1,6 +1,7 @@
 import { useQuiz } from "../context/QuizContext";
 
 function NextButton() {
+    console.log("NextButton");
     const { numOfQuestions, dispatch, answer, index } = useQuiz();
 
     if (answer === null) return null;

@@ -1,6 +1,7 @@
 import { useQuiz } from "../context/QuizContext";
 
 function Start() {
+    console.log("Start");
     const { numOfQuestions, dispatch } = useQuiz();
     return (
         <div className="start">
