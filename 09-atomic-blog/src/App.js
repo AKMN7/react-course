@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { PostProvider, usePosts } from "./PostContext";
 import RandomPost from "./RandomPost";
-import Test from "./Test";
 
 function App() {
     return (
@@ -96,7 +95,6 @@ function List() {
                     </li>
                 ))}
             </ul>
-            <Test />
         </>
     );
 }
