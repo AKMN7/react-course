@@ -21,7 +21,7 @@ function City() {
         function () {
             fetchCity(Number(id));
         },
-        [id]
+        [id, fetchCity]
     );
 
     const { cityName, emoji, date, notes } = currentCity;

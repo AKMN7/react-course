@@ -1,4 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
+import { useCallback } from "react";
 import { useEffect, useReducer, useContext, createContext } from "react";
 
 const BASE_URL = "http://localhost:8000";
@@ -47,13 +48,16 @@ export function CitiesProvider({ children }) {
         dispatch({ type: "cities/loaded", payload: data });
     }
 
-    async function fetchCity(id) {
-        if (id === currentCity.id) return;
-        dispatch({ type: "loading" });
-        const res = await fetch(`${BASE_URL}/cities/${id}`);
-        const data = await res.json();
-        dispatch({ type: "city/loaded", payload: data });
-    }
+    const fetchCity = useCallback(
+        async function (id) {
+            if (id === currentCity.id) return;
+            dispatch({ type: "loading" });
+            const res = await fetch(`${BASE_URL}/cities/${id}`);
+            const data = await res.json();
+            dispatch({ type: "city/loaded", payload: data });
+        },
+        [currentCity.id]
+    );
 
     async function createCity(newCity) {
         dispatch({ type: "loading" });

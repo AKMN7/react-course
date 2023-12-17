@@ -59,18 +59,6 @@
         "lng": "35.93353271484376"
       },
       "id": 98443200
-    },
-    {
-      "cityName": "Moscow",
-      "country": "Russian Federation (the)",
-      "emoji": "🇷🇺",
-      "date": "2023-12-15T22:21:03.517Z",
-      "notes": "Vladimir Putin",
-      "position": {
-        "lat": "55.73948169869349",
-        "lng": "37.62268066406251"
-      },
-      "id": 98443201
     }
   ]
 }
