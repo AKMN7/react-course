@@ -1,12 +1,18 @@
-import { createStore } from "redux";
+import { combineReducers, createStore } from "redux";
 
-const initialState = {
+const ACCOUNT_INIT_STATE = {
     balance: 0,
     loan: 0,
     loanPurpose: ""
 };
 
-function reducer(state = initialState, action) {
+const CUSTOMER_INIT_STATE = {
+    name: "",
+    nationalID: "",
+    createdAt: ""
+};
+
+function accountReducer(state = ACCOUNT_INIT_STATE, action) {
     if (action.type === "account/deposit") {
         return { ...state, balance: state.balance + action.payload };
     }
@@ -27,23 +33,24 @@ function reducer(state = initialState, action) {
     return state;
 }
 
-const store = createStore(reducer);
+function customerReducer(state = CUSTOMER_INIT_STATE, action) {
+    if (action.type === "customer/createCustomer") {
+        return { ...state, name: action.payload.name, nationalID: action.payload.nationalID, createdAt: action.payload.createdAt };
+    }
 
-// store.dispatch({ type: "account/deposit", payload: 600 });
-store.dispatch(deposit(600));
-console.log(store.getState());
+    if (action.type === "customer/updateName") {
+        return { ...state, name: action.payload };
+    }
 
-// store.dispatch({ type: "account/withdraw", payload: 200 });
-store.dispatch(withdraw(200));
-console.log(store.getState());
+    return state;
+}
 
-// store.dispatch({ type: "account/request", payload: { amount: 5000, purpose: "Buy Car" } });
-store.dispatch(request(5000, "Buy Car"));
-console.log(store.getState());
+const rootReducer = combineReducers({
+    account: accountReducer,
+    customer: customerReducer
+});
 
-// store.dispatch({ type: "account/payloan" });
-store.dispatch(payloan());
-console.log(store.getState());
+const store = createStore(rootReducer);
 
 function deposit(ammount) {
     return { type: "account/deposit", payload: ammount };
@@ -60,3 +67,29 @@ function request(amount, purpose) {
 function payloan() {
     return { type: "account/payloan" };
 }
+
+function createCustomer(name, nationalID) {
+    return { type: "customer/createCustomer", payload: { name, nationalID, createdAt: new Date().toISOString() } };
+}
+
+function updateName(name) {
+    return { type: "customer/updateName", payload: name };
+}
+
+store.dispatch(createCustomer("Anas Nassar", "2208707907"));
+console.log(store.getState());
+
+store.dispatch(updateName("AKMN"));
+console.log(store.getState());
+
+store.dispatch(deposit(600));
+console.log(store.getState());
+
+store.dispatch(withdraw(200));
+console.log(store.getState());
+
+store.dispatch(request(5000, "Buy Car"));
+console.log(store.getState());
+
+store.dispatch(payloan());
+console.log(store.getState());
