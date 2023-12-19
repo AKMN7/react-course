@@ -13,7 +13,8 @@ function AccountOperations() {
     const dispatch = useDispatch();
 
     function handleDeposit() {
-        dispatch(deposit(depositAmount, currency));
+        // dispatch(deposit(depositAmount, currency));
+        dispatch(deposit({ amount: depositAmount, currency }));
         setDepositAmount("");
         setCurrency("USD");
     }
@@ -24,7 +25,7 @@ function AccountOperations() {
     }
 
     function handleRequestLoan() {
-        dispatch(request(loanAmount, loanPurpose));
+        dispatch(request({ amount: loanAmount, purpose: loanPurpose }));
         setLoanAmount("");
         setLoanPurpose("");
     }
