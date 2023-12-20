@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
-import { useState } from "react";
-import { Form, redirect } from "react-router-dom";
+// import { useState } from "react";
+import { Form, redirect, useNavigation, useActionData } from "react-router-dom";
 import { createOrder } from "../../services/apiRestaurant";
 
 const isValidPhone = (str) => /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/.test(str);
@@ -30,8 +30,11 @@ const fakeCart = [
 ];
 
 function CreateOrder() {
-    const cart = fakeCart;
+    const navigation = useNavigation();
+    const isSubmitting = navigation.state === "submitting";
+    const formErrors = useActionData();
 
+    const cart = fakeCart;
     return (
         <div>
             <h2>Ready to order? Lets go!</h2>
@@ -47,6 +50,7 @@ function CreateOrder() {
                     <div>
                         <input type="tel" name="phone" required />
                     </div>
+                    {formErrors?.phone && <p>{formErrors?.phone}</p>}
                 </div>
 
                 <div>
@@ -69,7 +73,7 @@ function CreateOrder() {
 
                 <div>
                     <input type="hidden" name="cart" value={JSON.stringify(cart)} />
-                    <button>Order now</button>
+                    <button disabled={isSubmitting}>Order now</button>
                 </div>
             </Form>
         </div>
@@ -77,9 +81,17 @@ function CreateOrder() {
 }
 
 export async function action({ request }) {
+    // Formate DATA
     const formData = await request.formData();
     const data = Object.fromEntries(formData);
     const order = { ...data, cart: JSON.parse(data.cart), priority: data.priority === "on" };
+
+    // Check For ERRORS
+    const errors = {};
+    if (!isValidPhone(order.phone)) errors.phone = "Please provide a valid phone number!";
+    if (Object.keys(errors).length > 0) return errors;
+
+    // Create Order and Redirect
     const newOrder = await createOrder(order);
     return redirect(`/order/${newOrder.id}`);
 }
