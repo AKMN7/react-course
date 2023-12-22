@@ -11,15 +11,15 @@ const cartSlice = createSlice({
             state.cart.push(action.payload);
         },
         deleteItem(state, action) {
-            state.cart = state.cart.filter((el) => el.pizzaID !== action.payload);
+            state.cart = state.cart.filter((el) => el.pizzaId !== action.payload);
         },
         incQuantity(state, action) {
-            const item = state.cart.find((el) => el.pizzaID === action.payload);
+            const item = state.cart.find((el) => el.pizzaId === action.payload);
             item.quantity++;
             item.totalPrice = item.quantity * item.unitPrice;
         },
         decQuantity(state, action) {
-            const item = state.cart.find((el) => el.pizzaID === action.payload);
+            const item = state.cart.find((el) => el.pizzaId === action.payload);
             item.quantity--;
             item.totalPrice = item.quantity * item.unitPrice;
             if (item.quantity === 0) cartSlice.caseReducers.deleteItem(state, action);

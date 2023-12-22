@@ -9,11 +9,11 @@ function MenuItem({ pizza }) {
     const { id, name, unitPrice, ingredients, soldOut, imageUrl } = pizza;
 
     const dispatch = useDispatch();
-    const currentQuantity = useSelector((store) => store.cart.cart.find((el) => el.pizzaID === id)?.quantity);
+    const currentQuantity = useSelector((store) => store.cart.cart.find((el) => el.pizzaId === id)?.quantity);
 
     function handleAddToCart() {
         const newItem = {
-            pizzaID: id,
+            pizzaId: id,
             name,
             quantity: 1,
             unitPrice,
