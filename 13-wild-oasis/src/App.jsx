@@ -9,43 +9,49 @@ import Account from "./pages/Account";
 import Login from "./pages/Login";
 import PageNotFound from "./pages/PageNotFound";
 import GlobalStyles from "./styles/GlobalStyles";
+import AppLayout from "./ui/AppLayout";
 
 const router = createBrowserRouter([
     {
-        index: true,
-        loader: () => redirect("/dashboard")
-    },
-    {
-        path: "dashboard",
-        element: <Dashboard />
-    },
-    {
-        path: "bookings",
-        element: <Bookings />
-    },
-    {
-        path: "cabins",
-        element: <Cabins />
-    },
-    {
-        path: "users",
-        element: <Users />
-    },
-    {
-        path: "settings",
-        element: <Settings />
-    },
-    {
-        path: "account",
-        element: <Account />
-    },
-    {
-        path: "login",
-        element: <Login />
-    },
-    {
-        path: "*",
-        element: <PageNotFound />
+        element: <AppLayout />,
+        children: [
+            {
+                index: true,
+                loader: () => redirect("/dashboard")
+            },
+            {
+                path: "dashboard",
+                element: <Dashboard />
+            },
+            {
+                path: "bookings",
+                element: <Bookings />
+            },
+            {
+                path: "cabins",
+                element: <Cabins />
+            },
+            {
+                path: "users",
+                element: <Users />
+            },
+            {
+                path: "settings",
+                element: <Settings />
+            },
+            {
+                path: "account",
+                element: <Account />
+            },
+            {
+                path: "login",
+                element: <Login />
+            },
+            {
+                path: "*",
+                element: <PageNotFound />
+            }
+        ]
     }
 ]);
 
