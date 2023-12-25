@@ -6,11 +6,11 @@ import CabinRow from "./CabinRow";
 
 const Table = styled.div`
     border: 1px solid var(--color-grey-200);
-
     font-size: 1.4rem;
     background-color: var(--color-grey-0);
     border-radius: 7px;
     overflow: hidden;
+    width: 100%;
 `;
 
 const TableHeader = styled.header`
@@ -18,7 +18,6 @@ const TableHeader = styled.header`
     grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr;
     column-gap: 2.4rem;
     align-items: center;
-
     background-color: var(--color-grey-50);
     border-bottom: 1px solid var(--color-grey-100);
     text-transform: uppercase;
@@ -29,7 +28,7 @@ const TableHeader = styled.header`
 `;
 
 function CabinTable() {
-    const { data, isLoading } = useQuery({ queryKey: ["cabin"], queryFn: getCabins });
+    const { data, isLoading } = useQuery({ queryKey: ["cabins"], queryFn: getCabins });
     if (isLoading) return <Spinner />;
     return (
         <Table role="table">
