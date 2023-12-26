@@ -6,17 +6,27 @@ import Button from "../../ui/Button";
 import FileInput from "../../ui/FileInput";
 import Textarea from "../../ui/Textarea";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createCabin } from "../../services/apiCabins";
+import { createEditCabin } from "../../services/apiCabins";
 import toast from "react-hot-toast";
 import FormRow from "../../ui/FormRow";
 
-function CreateCabinForm() {
+function CreateCabinForm({ cabingToEdit = {} }) {
+    const { id: editId, ...editValues } = cabingToEdit;
+    const isEdit = Boolean(editId);
+
     const queryClient = useQueryClient();
-    const { register, handleSubmit, reset, getValues, formState } = useForm();
-    const { errors } = formState;
+    const {
+        register,
+        handleSubmit,
+        reset,
+        getValues,
+        formState: { errors }
+    } = useForm({
+        defaultValues: isEdit ? editValues : {}
+    });
 
     const { mutate, isLoading } = useMutation({
-        mutationFn: createCabin,
+        mutationFn: createEditCabin,
         onSuccess: () => {
             toast.success("Cabin cerated successfully.");
             queryClient.invalidateQueries({ queryKey: ["cabins"] });
@@ -25,9 +35,23 @@ function CreateCabinForm() {
         onError: (err) => toast.error(err.message)
     });
 
+    const { mutate: editMutate, isLoading: isEditing } = useMutation({
+        mutationFn: ({ cabin, id }) => createEditCabin(cabin, id),
+        onSuccess: () => {
+            toast.success("Cabin edited successfully.");
+            queryClient.invalidateQueries({ queryKey: ["cabins"] });
+            reset();
+        },
+        onError: (err) => toast.error(err.message)
+    });
+
+    const isWorking = isLoading || isEditing;
+
     function onSubmit(data) {
-        // console.log("🚀 ~ data:", data);
-        mutate({ ...data, image: data.image[0] });
+        console.log("🚀 ~ data:", data);
+        const image = typeof data.image === "string" ? data.image : data.image[0];
+        if (isEdit) editMutate({ cabin: { ...data, image }, id: editId });
+        else mutate({ ...data, image });
     }
 
     return (
@@ -53,14 +77,14 @@ function CreateCabinForm() {
             </FormRow>
 
             <FormRow label="Cabin Photo">
-                <FileInput id="image" accept="image/*" {...register("image", { required: "This field is required" })} />
+                <FileInput id="image" accept="image/*" {...register("image", { required: isEdit ? false : "This field is required" })} />
             </FormRow>
 
             <FormRow>
                 <Button variation="secondary" type="reset">
                     Cancel
                 </Button>
-                <Button disabled={isLoading}>Add cabin</Button>
+                <Button disabled={isWorking}>{isEdit ? "Edit Cabin" : "Create Cabin"}</Button>
             </FormRow>
         </Form>
     );
