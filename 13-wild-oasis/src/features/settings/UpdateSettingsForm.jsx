@@ -32,7 +32,12 @@ function UpdateSettingsForm() {
                 <Input type="number" id="min-nights" defaultValue={settings.min_booking_length} {...register("min_booking_length", { required: "This field is required", min: { value: 1, message: "The value here should be at least 1." } })} />
             </FormRow>
             <FormRow label="Maximum nights/booking" error={errors?.max_booking_length?.message}>
-                <Input type="number" id="max-nights" defaultValue={settings.max_booking_length} {...register("max_booking_length", { required: "This field is required", min: { value: 1, message: "The value here should be at least 1." } })} />
+                <Input
+                    type="number"
+                    id="max-nights"
+                    defaultValue={settings.max_booking_length}
+                    {...register("max_booking_length", { required: "This field is required", min: { value: 1, message: "The value here should be at least 1." }, validate: (value) => Number(value) > Number(getValues().min_booking_length) || "Max Booking Length cannot be lesst than min booking length." })}
+                />
             </FormRow>
             <FormRow label="Maximum guests/booking" error={errors?.max_booking_guests?.message}>
                 <Input type="number" id="max-guests" defaultValue={settings.max_booking_guests} {...register("max_booking_guests", { required: "This field is required", min: { value: 1, message: "The value here should be at least 1." } })} />
