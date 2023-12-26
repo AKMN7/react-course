@@ -23,9 +23,6 @@ export async function deleteCabin(id) {
 }
 
 export async function createEditCabin(cabin, id) {
-    console.log("🚀 ~ cabin", cabin);
-    console.log("🚀 ~  id", id);
-
     const hasImagePath = cabin?.image?.startsWith?.("https://cbwthpnlibdoefohdvob.supabase.co");
     const imageName = `${Math.random()}-${cabin.image.name}`.replace("/", "");
     const imagePath = hasImagePath ? cabin.image : `https://cbwthpnlibdoefohdvob.supabase.co/storage/v1/object/public/cabin-images/${imageName}`;
@@ -50,6 +47,8 @@ export async function createEditCabin(cabin, id) {
         console.error(error);
         throw new Error("Unable to perform action on cabin");
     }
+
+    if (hasImagePath) return data;
 
     const { error: storageError } = await supabase.storage.from("cabin-images").upload(imageName, cabin.image);
 
