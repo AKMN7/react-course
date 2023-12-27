@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { HiXMark } from "react-icons/hi2";
 import styled from "styled-components";
 import Button from "./Button";
+import { useClickOutside } from "../hooks/useClickOutside";
 
 const StyledModal = styled.div`
     position: fixed;
@@ -46,9 +47,6 @@ const CloseBtn = styled.button`
     & svg {
         width: 2.4rem;
         height: 2.4rem;
-        /* Sometimes we need both */
-        /* fill: var(--color-grey-500);
-    stroke: var(--color-grey-500); */
         color: var(--color-grey-500);
     }
 `;
@@ -69,12 +67,13 @@ function Open({ target, text }) {
 
 function Content({ name, children }) {
     const { target, close } = useContext(ModalContext);
+    const ref = useClickOutside(close);
 
     if (target !== name) return null;
 
     return createPortal(
         <Overlay>
-            <StyledModal>
+            <StyledModal ref={ref}>
                 <CloseBtn onClick={close}>
                     <HiXMark />
                 </CloseBtn>
