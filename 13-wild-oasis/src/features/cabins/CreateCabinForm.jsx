@@ -30,13 +30,30 @@ function CreateCabinForm({ cabingToEdit = {}, onCloseModal }) {
 
     function onSubmit(data) {
         const image = typeof data.image === "string" ? data.image : data.image[0];
-        if (isEdit) editMutate({ cabin: { ...data, image }, id: editId });
-        else createMutate({ ...data, image }, { onSuccess: () => reset() });
-        onCloseModal?.();
+        if (isEdit)
+            editMutate(
+                { cabin: { ...data, image }, id: editId },
+                {
+                    onSuccess: () => {
+                        reset();
+                        onCloseModal?.();
+                    }
+                }
+            );
+        else
+            createMutate(
+                { ...data, image },
+                {
+                    onSuccess: () => {
+                        reset();
+                        onCloseModal?.();
+                    }
+                }
+            );
     }
 
     return (
-        <Form onSubmit={handleSubmit(onSubmit)}>
+        <Form onSubmit={handleSubmit(onSubmit)} type={onCloseModal ? "modal" : "regular"}>
             <FormRow label="Cabin Name" error={errors?.name?.message}>
                 <Input type="text" id="name" {...register("name", { required: "This field is required" })} />
             </FormRow>
