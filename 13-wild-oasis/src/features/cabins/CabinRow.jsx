@@ -1,11 +1,12 @@
-import { useState } from "react";
 import { formatCurrency } from "../../utils/helpers";
 import { useDeleteCabin } from "./useDeleteCabin";
-import { HiSquare2Stack, HiPencil, HiTrash } from "react-icons/hi2";
+import { HiSquare2Stack } from "react-icons/hi2";
 
 import CreateCabinForm from "./CreateCabinForm";
 import styled from "styled-components";
 import { useCreateCabin } from "./useCreateCabin";
+import Modal from "../../ui/Modal";
+import ConfirmDelete from "../../ui/ConfirmDelete";
 
 const TableRow = styled.div`
     display: grid;
@@ -47,38 +48,39 @@ const Discount = styled.div`
 `;
 
 function CabinRow({ cabin }) {
-    const [showForm, setShowForm] = useState(false);
+    const { id, name, max_capacity, price, discount, image, description } = cabin;
+
     const { createMutate, isCreating } = useCreateCabin();
     const { deleteMutate, isDeleting } = useDeleteCabin();
-
-    const { id, name, max_capacity, price, discount, image, description } = cabin;
 
     function handleDuplicate() {
         createMutate({ name: "Copy of " + name, max_capacity, price, discount, image, description });
     }
 
     return (
-        <>
-            <TableRow role="row">
-                <Img src={image} alt={name} />
-                <Cabin>{name} </Cabin>
-                <div>Fits up to {max_capacity}</div>
-                <Price>{formatCurrency(price)}</Price>
-                <Discount>{discount ? formatCurrency(discount) : "--"}</Discount>
-                <div>
-                    <button onClick={handleDuplicate} disabled={isCreating}>
-                        <HiSquare2Stack />
-                    </button>
-                    <button onClick={() => setShowForm((curr) => !curr)}>
-                        <HiPencil />
-                    </button>
-                    <button onClick={() => deleteMutate(id)} disabled={isDeleting}>
-                        <HiTrash />
-                    </button>
-                </div>
-            </TableRow>
-            {showForm && <CreateCabinForm cabingToEdit={cabin} />}
-        </>
+        <TableRow role="row">
+            <Img src={image} alt={name} />
+            <Cabin>{name} </Cabin>
+            <div>Fits up to {max_capacity}</div>
+            <Price>{formatCurrency(price)}</Price>
+            <Discount>{discount ? formatCurrency(discount) : "--"}</Discount>
+            <div>
+                <button onClick={handleDuplicate} disabled={isCreating}>
+                    <HiSquare2Stack />
+                </button>
+                <Modal>
+                    <Modal.Open target="cabin-edit-form" text="Edit" />
+                    <Modal.Content name="cabin-edit-form">
+                        <CreateCabinForm cabingToEdit={cabin} />
+                    </Modal.Content>
+
+                    <Modal.Open target="cabin-delete" text="Delete" />
+                    <Modal.Content name="cabin-delete">
+                        <ConfirmDelete resourceName="cabins" disabled={isDeleting} onConfirm={() => deleteMutate(id)} />
+                    </Modal.Content>
+                </Modal>
+            </div>
+        </TableRow>
     );
 }
 
