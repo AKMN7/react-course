@@ -10,7 +10,7 @@ import FileInput from "../../ui/FileInput";
 import Textarea from "../../ui/Textarea";
 import FormRow from "../../ui/FormRow";
 
-function CreateCabinForm({ cabingToEdit = {} }) {
+function CreateCabinForm({ cabingToEdit = {}, onCloseModal }) {
     const { id: editId, ...editValues } = cabingToEdit;
     const isEdit = Boolean(editId);
 
@@ -32,6 +32,7 @@ function CreateCabinForm({ cabingToEdit = {} }) {
         const image = typeof data.image === "string" ? data.image : data.image[0];
         if (isEdit) editMutate({ cabin: { ...data, image }, id: editId });
         else createMutate({ ...data, image }, { onSuccess: () => reset() });
+        onCloseModal?.();
     }
 
     return (
@@ -61,7 +62,7 @@ function CreateCabinForm({ cabingToEdit = {} }) {
             </FormRow>
 
             <FormRow>
-                <Button variation="secondary" type="reset">
+                <Button variation="secondary" type="reset" onClick={() => onCloseModal?.()}>
                     Cancel
                 </Button>
                 <Button disabled={isLoading}>{isEdit ? "Edit Cabin" : "Create Cabin"}</Button>
