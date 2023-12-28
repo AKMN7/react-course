@@ -1,6 +1,5 @@
 import { formatCurrency } from "../../utils/helpers";
 import { useDeleteCabin } from "./useDeleteCabin";
-import { HiSquare2Stack } from "react-icons/hi2";
 
 import CreateCabinForm from "./CreateCabinForm";
 import styled from "styled-components";
@@ -8,6 +7,7 @@ import { useCreateCabin } from "./useCreateCabin";
 import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import Table from "../../ui/Table";
+import Button from "../../ui/Button";
 
 const Img = styled.img`
     display: block;
@@ -36,6 +36,11 @@ const Discount = styled.div`
     color: var(--color-green-700);
 `;
 
+const Actions = styled.div`
+    display: flex;
+    gap: 8px;
+`;
+
 function CabinRow({ cabin }) {
     const { id, name, max_capacity, price, discount, image, description } = cabin;
 
@@ -53,22 +58,22 @@ function CabinRow({ cabin }) {
             <div>Fits up to {max_capacity}</div>
             <Price>{formatCurrency(price)}</Price>
             <Discount>{discount ? formatCurrency(discount) : "--"}</Discount>
-            <div>
-                <button onClick={handleDuplicate} disabled={isCreating}>
-                    <HiSquare2Stack />
-                </button>
+            <Actions>
+                <Button onClick={handleDuplicate} disabled={isCreating}>
+                    Dup
+                </Button>
                 <Modal>
                     <Modal.Open target="cabin-edit-form" text="Edit" />
                     <Modal.Content name="cabin-edit-form">
                         <CreateCabinForm cabingToEdit={cabin} />
                     </Modal.Content>
 
-                    <Modal.Open target="cabin-delete" text="Delete" />
+                    <Modal.Open target="cabin-delete" text="Del" />
                     <Modal.Content name="cabin-delete">
                         <ConfirmDelete resourceName="cabins" disabled={isDeleting} onConfirm={() => deleteMutate(id)} />
                     </Modal.Content>
                 </Modal>
-            </div>
+            </Actions>
         </Table.Row>
     );
 }
