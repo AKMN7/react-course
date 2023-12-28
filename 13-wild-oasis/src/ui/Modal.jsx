@@ -2,7 +2,6 @@ import { cloneElement, createContext, useContext, useState } from "react";
 import { createPortal } from "react-dom";
 import { HiXMark } from "react-icons/hi2";
 import styled from "styled-components";
-import Button from "./Button";
 import { useClickOutside } from "../hooks/useClickOutside";
 
 const StyledModal = styled.div`
@@ -60,9 +59,9 @@ function Modal({ children }) {
     return <ModalContext.Provider value={{ target, open, close }}>{children}</ModalContext.Provider>;
 }
 
-function Open({ target, text }) {
+function Open({ target, children }) {
     const { open } = useContext(ModalContext);
-    return <Button onClick={() => open(target)}>{text}</Button>;
+    return cloneElement(children, { onClick: () => open(target) });
 }
 
 function Content({ name, children }) {
