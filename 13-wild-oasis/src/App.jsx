@@ -14,6 +14,7 @@ import PageNotFound from "./pages/PageNotFound";
 import GlobalStyles from "./styles/GlobalStyles";
 import AppLayout from "./ui/AppLayout";
 import Booking from "./pages/Booking";
+import CheckIn from "./pages/CheckIn";
 
 const router = createBrowserRouter([
     {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
             {
                 path: "bookings/:bookingId",
                 element: <Booking />
+            },
+            {
+                path: "checkin/:bookingId",
+                element: <CheckIn />
             },
             {
                 path: "cabins",
