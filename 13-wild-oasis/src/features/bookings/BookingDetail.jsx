@@ -13,6 +13,7 @@ import { useBooking } from "./useBooking";
 import { useNavigate } from "react-router-dom";
 import Spinner from "../../ui/Spinner";
 import { useCheckOut } from "../check-in-out/useCheckout";
+import { useDeleteBooking } from "./useDeleteBooking";
 
 const HeadingGroup = styled.div`
     display: flex;
@@ -25,6 +26,7 @@ function BookingDetail() {
     const moveBack = useMoveBack();
     const { booking, isLoading } = useBooking();
     const { checkout, isLoading: isCheckingOut } = useCheckOut();
+    const { deleteMutate, isDeleting } = useDeleteBooking();
 
     const statusToTagName = {
         unconfirmed: "blue",
@@ -53,8 +55,8 @@ function BookingDetail() {
                         Check Out
                     </Button>
                 )}
-                <Button variation="secondary" onClick={moveBack}>
-                    Back
+                <Button variation="danger" onClick={() => deleteMutate(booking.id)} disabled={isDeleting}>
+                    Delete
                 </Button>
             </ButtonGroup>
         </>

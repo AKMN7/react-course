@@ -7,9 +7,10 @@ import Table from "../../ui/Table";
 import { formatCurrency } from "../../utils/helpers";
 import { formatDistanceFromNow } from "../../utils/helpers";
 import Menus from "../../ui/Menus";
-import { HiArrowDownOnSquare, HiArrowUpOnSquare, HiEye } from "react-icons/hi2";
+import { HiArrowDownOnSquare, HiArrowUpOnSquare, HiEye, HiTrash } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 import { useCheckOut } from "../check-in-out/useCheckout";
+import { useDeleteBooking } from "./useDeleteBooking";
 
 const Cabin = styled.div`
     font-size: 1.6rem;
@@ -54,6 +55,7 @@ function BookingRow({
 }) {
     const navigate = useNavigate();
     const { checkout, isLoading: isCheckingOut } = useCheckOut();
+    const { deleteMutate, isDeleting } = useDeleteBooking();
 
     const statusToTagName = {
         unconfirmed: "blue",
@@ -99,6 +101,9 @@ function BookingRow({
                             Check Out
                         </Menus.Button>
                     )}
+                    <Menus.Button icon={<HiTrash />} onClick={() => deleteMutate(bookingId)} disabled={isDeleting}>
+                        Delete
+                    </Menus.Button>
                 </Menus.List>
             </Menus.Menu>
         </Table.Row>
