@@ -81,15 +81,11 @@ function Toggle({ id }) {
 
     function handleClick(e) {
         const rect = e.target.closest("button").getBoundingClientRect();
-        console.log("🚀 ~ rect:", rect);
-        console.log("🚀 ~ openId:", openId);
-        console.log("🚀 ~ id:", id);
 
         setPosition({ x: window.innerWidth - rect.width - rect.x, y: rect.y + rect.height + 8 });
 
-        // if (openId === id) close();
-        if (openId === "" || openId !== id) open(id);
-        else close();
+        if (openId === "" || openId !== id) return open(id);
+        close();
     }
 
     return (

@@ -6,6 +6,9 @@ import Table from "../../ui/Table";
 
 import { formatCurrency } from "../../utils/helpers";
 import { formatDistanceFromNow } from "../../utils/helpers";
+import Menus from "../../ui/Menus";
+import { HiEye } from "react-icons/hi2";
+import { useNavigate } from "react-router-dom";
 
 const Cabin = styled.div`
     font-size: 1.6rem;
@@ -37,17 +40,19 @@ const Amount = styled.div`
 function BookingRow({
     booking: {
         id: bookingId,
-        created_at,
+        // created_at,
         start_date,
         end_date,
-        num_of_nights,
-        num_of_guests,
+        // num_of_nights,
+        // num_of_guests,
         total_price,
         status,
         guests: { name: guest_name, email },
         cabins: { name: cabin_name }
     }
 }) {
+    const navigate = useNavigate();
+
     const statusToTagName = {
         unconfirmed: "blue",
         "checked-in": "green",
@@ -75,6 +80,15 @@ function BookingRow({
             <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
 
             <Amount>{formatCurrency(total_price)}</Amount>
+
+            <Menus.Menu>
+                <Menus.Toggle id={bookingId} />
+                <Menus.List id={bookingId}>
+                    <Menus.Button icon={<HiEye />} onClick={() => navigate(`/bookings/${bookingId}`)}>
+                        Details
+                    </Menus.Button>
+                </Menus.List>
+            </Menus.Menu>
         </Table.Row>
     );
 }
