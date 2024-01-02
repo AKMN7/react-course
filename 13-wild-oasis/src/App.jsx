@@ -15,10 +15,15 @@ import GlobalStyles from "./styles/GlobalStyles";
 import AppLayout from "./ui/AppLayout";
 import Booking from "./pages/Booking";
 import CheckIn from "./pages/CheckIn";
+import ProtectedRoute from "./ui/ProtectedRoute";
 
 const router = createBrowserRouter([
     {
-        element: <AppLayout />,
+        element: (
+            <ProtectedRoute>
+                <AppLayout />
+            </ProtectedRoute>
+        ),
         children: [
             {
                 index: true,
