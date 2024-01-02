@@ -6,11 +6,12 @@ import toast from "react-hot-toast";
 export function useLogin() {
     const navigate = useNavigate();
     const { mutate: login, isLoading } = useMutation({
-        mutationFn: (data) => LoginAPI(data),
+        mutationFn: LoginAPI,
         onSuccess: () => {
             navigate("/dashboard", { replace: true });
         },
-        onError: () => {
+        onError: (error) => {
+            console.log("🚀 ~ error:", error);
             toast.error("Invalid Credentials.");
         }
     });
