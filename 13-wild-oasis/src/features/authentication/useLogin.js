@@ -8,7 +8,7 @@ export function useLogin() {
     const { mutate: login, isLoading } = useMutation({
         mutationFn: (data) => LoginAPI(data),
         onSuccess: () => {
-            navigate("/dashboard");
+            navigate("/dashboard", { replace: true });
         },
         onError: () => {
             toast.error("Invalid Credentials.");
