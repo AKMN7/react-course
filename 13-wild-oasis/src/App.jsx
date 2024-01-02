@@ -55,16 +55,16 @@ const router = createBrowserRouter([
             {
                 path: "account",
                 element: <Account />
-            },
-            {
-                path: "login",
-                element: <Login />
-            },
-            {
-                path: "*",
-                element: <PageNotFound />
             }
         ]
+    },
+    {
+        path: "login",
+        element: <Login />
+    },
+    {
+        path: "*",
+        element: <PageNotFound />
     }
 ]);
 

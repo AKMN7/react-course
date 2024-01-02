@@ -15,7 +15,7 @@ const Form = styled.form`
     ${(props) =>
         props.type === "regular" &&
         css`
-            width: 80rem;
+            width: 50rem;
         `}
     
   overflow: hidden;
