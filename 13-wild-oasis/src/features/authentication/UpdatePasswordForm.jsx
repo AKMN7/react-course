@@ -4,7 +4,7 @@ import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
 
 import { useUpdateUser } from "./useUpdateUser";
-import { styled } from "@tanstack/react-query-devtools/build/lib/utils";
+import { styled } from "styled-components";
 
 const Form = styled.form`
     padding: 4rem 2rem;
@@ -20,10 +20,10 @@ function UpdatePasswordForm() {
     const { register, handleSubmit, formState, getValues, reset } = useForm();
     const { errors } = formState;
 
-    const { updateUser, isUpdating } = useUpdateUser();
+    const { updateMutate, isUpdating } = useUpdateUser();
 
     function onSubmit({ password }) {
-        updateUser({ password }, { onSuccess: () => reset });
+        updateMutate({ password }, { onSuccess: () => reset });
     }
 
     return (
