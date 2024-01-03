@@ -7,7 +7,8 @@ export function useLogin() {
     const navigate = useNavigate();
     const { mutate: login, isLoading } = useMutation({
         mutationFn: LoginAPI,
-        onSuccess: () => {
+        onSuccess: (data) => {
+            console.log("🚀 ~ data success:", data);
             navigate("/dashboard", { replace: true });
         },
         onError: (error) => {
