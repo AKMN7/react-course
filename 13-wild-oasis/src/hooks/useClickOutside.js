@@ -8,9 +8,9 @@ export function useClickOutside(callback) {
             if (ref.current && !ref.current.contains(e.target)) callback();
         }
 
-        document.addEventListener("click", handleClick, true);
+        document.addEventListener("click", handleClick);
 
-        return () => document.removeEventListener("click", handleClick, true);
+        return () => document.removeEventListener("click", handleClick);
     }, [callback]);
 
     return ref;

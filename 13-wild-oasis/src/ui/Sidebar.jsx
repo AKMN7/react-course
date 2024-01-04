@@ -1,4 +1,4 @@
-import Uploader from "../data/Uploader";
+// import Uploader from "../data/Uploader";
 import Logo from "./Logo";
 import MainNav from "./MainNav";
 import styled from "styled-components";
@@ -19,7 +19,7 @@ function Sidebar() {
         <StlyleSidebar>
             <Logo />
             <MainNav />
-            <Uploader />
+            {/* <Uploader /> */}
         </StlyleSidebar>
     );
 }
